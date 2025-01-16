@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f9;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .container {
+          width: 90%;
+          max-width: 800px;
+          margin: 20px auto;
+          text-align: center;
+        }
+        h1 {
+          color: #333;
+        }
+        form {
+          margin-bottom: 20px;
+        }
+        input, textarea {
+          width: 100%;
+          margin: 10px 0;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+        button {
+          padding: 10px 20px;
+          background-color: #007BFF;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        button:hover {
+          background-color: #0056b3;
+        }
+        .notes {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+        }
+        .note-card {
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          padding: 15px;
+          width: 250px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .note-card h3 {
+          margin: 0 0 10px 0;
+          color: #333;
+        }
+        .note-card p {
+          color: #555;
+        }
+        .delete-btn {
+          margin-top: 10px;
+          padding: 5px 10px;
+          background-color: #ff4d4d;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        .delete-btn:hover {
+          background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Notes App</h1>
+        <form id="note-form">
+          <input type="text" id="note-title" placeholder="Note Title" required />
+          <textarea id="note-description" rows="4" placeholder="Note Description" required></textarea>
+          <button type="submit">Add Note</button>
+        </form>
+        <div class="notes" id="notes-container"></div>
+    </div>
+</body>
+<script>
+    const form = document.querySelector('#note-form')
+    const title = document.querySelector('#note-title')
+    const desc = document.querySelector('#note-description')
+    const notesContainer = document.querySelector('#notes-container')
+
+    document.addEventListener('DOMContentLoaded', loadNotes);
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+
+        const noteTitle = title.value.trim();
+        const noteDesc = desc.value.trim();
+
+        if(noteDesc === '' || noteTitle === ''){
+            alert('Both fields are required.')
+            return
+        }
+        const note = { noteTitle , noteDesc }
+        addNoteToDOM(note)
+        saveNoteToStorage(note)
+    })
+    function addNoteToDOM(note){
+        const noteCard = document.createElement('div');
+        noteCard.classList.add('note-card');
+        noteCard.innerHTML = `
+            <h3>${note.noteTitle}</h3>
+            <p>${note.noteDesc}</p>
+            <button class="delete-btn">Delete</button>
+        `;
+        notesContainer.appendChild(noteCard);
+
+        noteCard.querySelector('.delete-btn').addEventListener('click',()=>{
+            noteCard.remove();
+            deleteNoteFromStorage(note);
+        })
+    }
+
+    function saveNoteToStorage(note){
+        const notes = getNotesFromStorage();
+        notes.push(note);
+        localStorage.setItem('notes',JSON.stringify(notes))
+    }
+
+    function getNotesFromStorage() {
+        return JSON.parse(localStorage.getItem('notes')) || [];
+    }
+
+    function deleteNoteFromStorage(noteToDelete){
+        const notes = getNotesFromStorage();
+        const filteredNotes = notes.filter((note)=>note.noteTitle !== noteToDelete.nodeTitle || note.noteDesc !== noteToDelete.noteDesc);
+        localStorage.setItem('notes',JSON.stringify(filteredNotes));
+    }
+
+    function loadNotes() {
+        const notes = getNotesFromStorage();
+        notes.forEach((note) => addNoteToDOM(note));
+    }
+
+</script>
+</html>

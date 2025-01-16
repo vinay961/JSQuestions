@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Events</title>
+</head>
+<body>
+    <div id="a" tabindex="0" style="width: 200px; height: 50px; border: 1px solid black; display: flex; align-items: center; justify-content: center;">
+        Press a key
+    </div>
+    <ul class="main">
+        <li class="b">Sample1</li>
+        <li class="b">Sample2</li>
+        <li class="b">Sample3</li>
+    </ul>
+
+    <script>
+        const element = document.getElementById('a');
+
+        // console.log(element);
+        // console.log(element.innerHTML);
+        // console.log(element.innerText);
+        // element.innerHTML = "<strong>I am Vinay</strong>" // work perfectly
+        // element.innerText = "<strong>I am Vinay</strong>" // not work
+
+        // element.focus();
+
+        // element.addEventListener("mousedown", () => {
+            // element.innerHTML = "mouse is down";
+            // console.log("mouse down");
+        // });
+
+        // element.addEventListener("mouseup", () => {
+            // element.innerHTML = "mouse is up";
+            // console.log("mouse up");
+        // });       
+
+        // Navigating between nodes
+
+        // console.log(element.parentElement);
+        // console.log(element.childNodes);
+
+        const list = document.querySelector('.main')
+        console.log(list);
+        // console.log(list.parentElement);
+        // console.log(list.childNodes);
+        // const res = list.childNodes;
+        // res.forEach((r)=>{console.log(r);})
+        // console.log(list.nextSibling);
+        // const attribute = element.getAttribute('style')
+        // const attribute = list.getAttribute('id') // null so let's set id attribute in it.
+        list.setAttribute("id","main")
+        const attribute = list.getAttribute('id')
+
+        // console.log(attribute);
+
+        // Let's understand the meaning of NodeList and HTMLCollection
+            // NodeList-> Contain all node types(element,text,comments, can use forEach().
+            // HTMLCollection-> Contain only elements(like p,heading elements,etc), can't use forEach().
+
+    </script>
+</body>
+</html>

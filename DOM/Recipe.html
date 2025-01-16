@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .recipe-list {
+            margin-top: 20px;
+        }
+
+        .recipe-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #e60000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recipe Manager</h1>
+        <form id="recipeForm">
+            <input type="text" id="recipeName" placeholder="Recipe Name" required />
+            <textarea id="recipeIngredients" placeholder="Ingredients (comma separated)" required></textarea>
+            <button type="submit">Add Recipe</button>
+        </form>
+        <input type="text" id="searchBar" placeholder="Search Recipes" />
+        <div class="recipe-list" id="recipeList"></div>
+    </div>
+
+</body>
+
+<script>
+    const form = document.getElementById('recipeForm')
+    const recipeName = document.getElementById('recipeName')
+    const Ingredients = document.getElementById('recipeIngredients')
+    const searchInput = document.getElementById('searchBar')
+    const recipeList = document.getElementById('recipeList')
+
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+
+        if(!recipeName || !Ingredients){
+            alert('Both fields are required.')
+            return
+        }
+        const data = {recipeName,Ingredients};
+        addNodeToDOM(data)
+    })
+    function addNodeToDOM(data){
+        const div = document.createElement('div')
+        div.classList.add('recipe-card')
+        div.innerHTML = `
+            <h3>${data.recipeName.value}</h3>
+            <p><strong>Ingredients:</strong> ${data.Ingredients.value}</p>
+            <button class="delete-btn">&times;</button>
+        `;
+        recipeList.appendChild(div)
+        recipeName.value = ''
+        Ingredients.value = ''
+    }
+</script>
+
+</html>

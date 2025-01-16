@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background: #f4f4f9;
+        }
+    
+        .container {
+          max-width: 500px;
+          margin: 50px auto;
+          background: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        h1 {
+          text-align: center;
+          color: #333;
+        }
+    
+        form {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+    
+        input[type="text"] {
+          width: 70%;
+          padding: 10px;
+          font-size: 16px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+    
+        button {
+          padding: 10px 15px;
+          font-size: 16px;
+          color: #fff;
+          background: #007bff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+    
+        button:hover {
+          background: #0056b3;
+        }
+    
+        ul {
+          list-style-type: none;
+          padding: 0;
+        }
+    
+        ul li {
+          display: flex;
+          justify-content: space-between;
+          background: #f9f9f9;
+          margin-bottom: 10px;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+    
+        .task-count {
+          text-align: center;
+          margin-top: 20px;
+          font-size: 18px;
+          color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Dynamic To-Do List</h1>
+        <form id="taskForm">
+          <input type="text" id="taskInput" placeholder="Enter your task" />
+          <button type="submit">Add Task</button>
+        </form>
+        <ul id="taskList"></ul>
+        <div class="task-count">
+          Total Tasks: <span id="taskCount">0</span>
+        </div>
+        <button id="clearAll" style="margin-top: 10px; width: 100%; background: #dc3545;">
+          Clear All Tasks
+        </button>
+    </div>
+    
+</body>
+
+<script>
+    const input = document.querySelector('#taskInput');
+    const form = document.querySelector('#taskForm');
+    const tasklist = document.querySelector('#taskList');
+    const taskCount = document.getElementById('taskCount');
+    const clearAllBtn = document.getElementById('clearAll');
+    const delete_task = document.querySelector('delete-btn');
+
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+
+        const taskValue = input.value.trim();
+        if(!taskValue){
+            alert('Fill the task field first..');
+            return;
+        }
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${taskValue}
+            <button class="delete-btn">Delete</button>
+        `;
+        tasklist.appendChild(li);
+        input.value = ' ';
+        updateTaskCount();
+    })
+
+    delete_task.addEventListener('click',()=>{
+        
+    })
+
+    clearAllBtn.addEventListener('click',()=>{
+        tasklist.innerHTML = ' ';
+        updateTaskCount();
+    })
+
+    function updateTaskCount(){
+        const task = tasklist.children;
+        taskCount.innerHTML = task.length;
+    }
+</script>
+
+</html>
