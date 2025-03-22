@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        form{
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            margin-left: 580px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 5px 10px 18px black;
+        }
+        .title{
+            text-align: center;
+            text-decoration: underline;
+        }
+        form label{
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        form input{
+            padding: 10px 5px;
+            border-radius: 10px;
+            border: 2px solid rgb(90, 192, 212);
+        }
+        form input:focus{
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0px 0px 5px rgba(52, 152, 219, 0.5);
+        }
+        button{
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgb(35, 89, 204);
+            color: aliceblue;
+        }
+        #submit:hover{
+            background-color: rgb(47, 109, 42);
+            color: black;
+        }
+        #cancel:hover{
+            background-color: rgb(252, 48, 48);
+            color: black;
+        }
+        p {
+            display: none; 
+            color: red;
+            font-size: 14px;
+            margin: 2px 0 0 5px; 
+        }
+        table{
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        th,td{
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 10px 15px;
+        }
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2 class="title">Registration Yourself</h2>
+        <form action="#" onsubmit="handleFormSubmition()">
+            
+            <label name="username">UserName</label>
+            <input id="username" name="username" type="text" placeholder=" Enter Your Name " />
+            <p class="nameError"></p>
+            <br>
+            <label name="useremail">Email</label>
+            <input id="useremail" name="useremail" type="email" placeholder=" Enter Your Email " />
+            <p class="emailError"></p>
+            <br>
+            <label name="password">Password</label>
+            <input id="password" name="password" type="password" placeholder=" Enter Password " />
+            <p class="passwordError"></p>
+            <br><br>
+            <div>
+                <button id="submit">Submit</button>
+                <button id="cancel" onclick=clearForm()>Cancel</button>
+            </div>
+        
+        </form>
+    </div>
+    <br>
+    <hr>
+    <div>
+        <h2 class="title">Registered Candidates</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>User Email</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    let users = [
+        { username: "Vinay Rai", email: "vinay10@gmail.com" }
+    ];
+
+    function renderTable(){
+        let tableBody = document.getElementById("userTableBody");
+        tableBody.innerHTML = "";
+
+        users.forEach(user => {
+            let row = document.createElement("tr");
+            row.innerHTML = `<td>${user.username}</td><td>${user.email}</td>`;
+            tableBody.appendChild(row);
+        })
+    }
+    function clearForm() {
+        event.preventDefault(); 
+
+        document.getElementById("username").value = '';
+        document.getElementById("useremail").value = '';
+        document.getElementById("password").value = '';
+
+        document.getElementsByClassName("nameError")[0].style.display = "none";
+        document.getElementsByClassName("emailError")[0].style.display = "none";
+        document.getElementsByClassName("passwordError")[0].style.display = "none";
+    }
+
+
+    function handleFormSubmition(event) {
+        event.preventDefault(); // Prevent form from submitting
+
+        let name = document.getElementById("username").value.trim();
+        let email = document.getElementById("useremail").value.trim();
+        let password = document.getElementById("password").value.trim();
+
+        let nameError = document.getElementsByClassName("nameError")[0];
+        let emailError = document.getElementsByClassName("emailError")[0];
+        let passwordError = document.getElementsByClassName("passwordError")[0];
+
+        let isValid = true;
+
+        // Reset previous error messages
+        nameError.innerHTML = "";
+        emailError.innerHTML = "";
+        passwordError.innerHTML = "";
+
+        if (name === "") {
+            nameError.innerHTML = "* Name can't be empty";
+            nameError.style.display="block";
+            isValid = false;
+        }
+        if (email === "") {
+            emailError.innerHTML = "* Email can't be empty";
+            emailError.style.display="block";
+            isValid = false;
+        }
+        if (password === "") {
+            passwordError.innerHTML = "* Password can't be empty";
+            passwordError.style.display="block";
+            isValid = false;
+        }
+        if(!isValid) return;
+        users.push({username:name,email:email})
+        renderTable();
+        document.querySelector("form").reset();
+    }
+    // Attach the event listener properly
+    document.querySelector("form").addEventListener("submit", handleFormSubmition);
+    renderTable();
+</script>
+</html>
